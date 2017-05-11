@@ -6,8 +6,9 @@
     margin: 0 auto;
 }
 
-a.active {
-    color: orange;
+a.active, a.active:active, a.active:focus, a:hover {
+    color: orange !important;
+    text-decoration: none !important;
 }
 
 nav {
