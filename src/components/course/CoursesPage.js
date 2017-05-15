@@ -27,7 +27,8 @@ class CoursesPage extends React.Component {
     }
 
     onClickSave() {
-        this.props.dispatch(courseActions.createCourse(this.state.course)); // connect() gives us the dispatch() function.
+        // this.props.dispatch(courseActions.createCourse(this.state.course)); // connect() gives us the dispatch() function.
+        this.props.createCourse(this.state.course); // mapDispatchToProps() allowed us to shorten this line from what it was above
     }
     
     courseRow(course, index) {
@@ -54,8 +55,8 @@ class CoursesPage extends React.Component {
 }
 
 CoursesPage.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    courses: PropTypes.array.isRequired
+    courses: PropTypes.array.isRequired,
+    createCourse: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -64,4 +65,14 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(CoursesPage);
+function mapDispatchToProps(dispatch) { // determines what actions are available in the component
+    return {
+        // this line replaces what we had up above, it moves
+        //  ⤺ createCourse() comes from src\actions\courseActions.js
+        //                      ⤺ arrow function / anonmyous function
+        //                            ⤺ dispatch comes from ...?
+        createCourse: (course) => dispatch(courseActions.createCourse(course))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
