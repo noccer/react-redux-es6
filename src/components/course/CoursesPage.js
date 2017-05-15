@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import * as courseActions from '../../actions/courseActions';
+import { bindActionCreators } from 'redux';
 
 class CoursesPage extends React.Component {
     constructor(props, context) {
@@ -28,7 +29,7 @@ class CoursesPage extends React.Component {
 
     onClickSave() {
         // this.props.dispatch(courseActions.createCourse(this.state.course)); // connect() gives us the dispatch() function.
-        this.props.createCourse(this.state.course); // mapDispatchToProps() allowed us to shorten this line from what it was above
+        this.props.actions.createCourse(this.state.course); // mapDispatchToProps() allowed us to shorten this line from what it was above
     }
     
     courseRow(course, index) {
@@ -56,7 +57,7 @@ class CoursesPage extends React.Component {
 
 CoursesPage.propTypes = {
     courses: PropTypes.array.isRequired,
-    createCourse: PropTypes.func.isRequired
+    actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -67,11 +68,16 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) { // determines what actions are available in the component
     return {
-        // this line replaces what we had up above, it moves
-        //  ⤺ createCourse() comes from src\actions\courseActions.js
-        //                      ⤺ arrow function / anonmyous function
-        //                            ⤺ dispatch comes from ...?
-        createCourse: (course) => dispatch(courseActions.createCourse(course))
+        // // this line replaces what we had up above, it moves
+        // //  ⤺ createCourse() comes from src\actions\courseActions.js
+        // //                      ⤺ arrow function / anonmyous function
+        // //                            ⤺ dispatch comes from ...?
+        // createCourse: (course) => dispatch(courseActions.createCourse(course))
+        
+        
+        //                  ⤺ this is a redux helper
+        //                  ⤺ It goes through all courseActions in the actions file
+        actions: bindActionCreators(courseActions, dispatch)
     };
 }
 
