@@ -29,11 +29,16 @@ class CoursesPage extends React.Component {
     onClickSave() {
         this.props.dispatch(courseActions.createCourse(this.state.course)); // connect() gives us the dispatch() function.
     }
+    
+    courseRow(course, index) {
+        return <div key={index}>{course.title}</div>;
+    }
 
     render() {
         return (
             <div>
                 <h1>Courses</h1>
+                {this.props.courses.map(this.courseRow)}
                 <h2>Add Course</h2>
                 <input
                     type="text"
@@ -48,10 +53,15 @@ class CoursesPage extends React.Component {
     }
 }
 
+CoursesPage.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    courses: PropTypes.array.isRequired
+};
+
 function mapStateToProps(state, ownProps) {
     return { // 'state.courses' was defined in src\reducers\index.js
         courses: state.courses
-    }
-};
+    };
+}
 
 export default connect(mapStateToProps)(CoursesPage);
