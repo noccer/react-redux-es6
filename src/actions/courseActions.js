@@ -5,7 +5,7 @@ export function loadCoursesSuccess(courses) { //convenience function that return
     return {
         type: types.LOAD_COURSES_SUCCESS,
         courses
-    }
+    };
 }
 
 export function loadCourses() {
@@ -15,5 +15,5 @@ export function loadCourses() {
         }).catch(error => {
             throw(error);
         });
-    }
+    };
 }
