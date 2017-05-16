@@ -17,6 +17,14 @@ class ManageCoursePage extends React.Component {
         this.saveCourse = this.saveCourse.bind(this);
     }
     
+    componentWillReceiveProps(nextProps) { //this function may run sometimes even when props have not changed, React can't always be sure, so it runs it anyway.
+        if (this.props.course.id != nextProps.course.id) { // has the course.id changed? if not, dont run the setState()
+            this.setState({
+                course: Object.assign({}, nextProps.course)
+            });
+        }
+    }
+    
     updateCourseState(event) {
         const field = event.target.name;
         let course = this.state.course;
@@ -64,7 +72,6 @@ function getCourseById(courses, id) {
 
 function mapStateToProps(state, ownProps) {
     const courseId = ownProps.params.id; // from the path /course/:id
-    debugger;
     
     let course = {
         id: "",
