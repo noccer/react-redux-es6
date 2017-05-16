@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router'; //browserHistory uses HTML pushState() which is not compatible with really old browsers
 import routes from './routes';
 import { loadCourses } from './actions/courseActions';
-import { loadAuthors } from './actions/authoActions';
+import { loadAuthors } from './actions/authorActions';
 import './styles/styles.css'; // Webpack can import CSS files too!
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
