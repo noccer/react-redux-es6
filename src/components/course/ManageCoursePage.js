@@ -7,16 +7,16 @@ import CourseForm from './CourseForm';
 class ManageCoursePage extends React.Component {
     constructor(props, context) {
         super(props, context);
-        
+
         this.state = {
             course: Object.assign({}, this.props.course),
             errors: {}
         };
-        
+
         this.updateCourseState = this.updateCourseState.bind(this);
         this.saveCourse = this.saveCourse.bind(this);
     }
-    
+
     componentWillReceiveProps(nextProps) { //this function may run sometimes even when props have not changed, React can't always be sure, so it runs it anyway.
         if (this.props.course.id != nextProps.course.id) { // has the course.id changed? if not, dont run the setState()
             this.setState({
@@ -24,7 +24,7 @@ class ManageCoursePage extends React.Component {
             });
         }
     }
-    
+
     updateCourseState(event) {
         const field = event.target.name;
         let course = this.state.course;
@@ -33,20 +33,24 @@ class ManageCoursePage extends React.Component {
             course: course
         });
     }
-    
+
     saveCourse(event) {
         event.preventDefault();
-        this.props.actions.saveCourse(this.state.course);
+        this.props.actions.saveCourse(this.state.course)
+            .then(() => this.redirect());
+    }
+
+    redirect() {
         this.context.router.push('/courses');
     }
-    
+
     render() {
         return (
-            <CourseForm 
+            <CourseForm
                 allAuthors={this.props.authors}
                 onChange={this.updateCourseState}
                 onSave={this.saveCourse}
-                course={this.state.course} 
+                course={this.state.course}
                 errors={this.state.errors}
             />
         );
@@ -72,7 +76,7 @@ function getCourseById(courses, id) {
 
 function mapStateToProps(state, ownProps) {
     const courseId = ownProps.params.id; // from the path /course/:id
-    
+
     let course = {
         id: "",
         watchHref: "",
@@ -81,18 +85,18 @@ function mapStateToProps(state, ownProps) {
         length: "",
         category: ""
     };
-    
+
     if (courseId && state.courses.length > 0) { // this ensures that if we refresh on /courses/some-id-name, we dont get an 'undefined' value for courses. we need to make sure that the courses list returns from the API before we run the code.
         course = getCourseById(state.courses, courseId);
     }
-    
+
     const authorsFormattedForDropdown = state.authors.map(author => {
         return {
             value: author.id,
             text: author.firstName + ' ' + author.lastName
         };
     });
-    
+
     return {
         course: course,
         authors: authorsFormattedForDropdown
