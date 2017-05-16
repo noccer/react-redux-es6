@@ -1,6 +1,8 @@
+import * as types from '../actions/actionTypes';
+
 export default function courseReducer(state = [], action) { // take the current state, and action, then return a new state. state = [] is initialising our state
     switch(action.type) {
-        case 'CREATE_COURSE': 
+        case types.CREATE_COURSE: 
             return [
                 ...state,
                 Object.assign({}, action.course)

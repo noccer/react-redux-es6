@@ -4,6 +4,7 @@ import * as courseActions from '../../actions/courseActions';
 import { bindActionCreators } from 'redux';
 
 class CoursesPage extends React.Component {
+    // initialise state and bind to 'this'
     constructor(props, context) {
         super(props, context);
 
@@ -38,6 +39,8 @@ class CoursesPage extends React.Component {
 
     render() {
         return (
+            // container components typically only ever call components
+            // try not to have any markup in container components
             <div>
                 <h1>Courses</h1>
                 {this.props.courses.map(this.courseRow)}
