@@ -56,7 +56,16 @@ ManageCoursePage.contextTypes = {
     router: PropTypes.object
 };
 
+function getCourseById(courses, id) {
+    const course = courses.filter(course => course.id == id);
+    if (course.length) return course[0]; //since filter returns an array, we have to grab the first occurence.
+    return null;
+}
+
 function mapStateToProps(state, ownProps) {
+    const courseId = ownProps.params.id; // from the path /course/:id
+    debugger;
+    
     let course = {
         id: "",
         watchHref: "",
@@ -65,6 +74,10 @@ function mapStateToProps(state, ownProps) {
         length: "",
         category: ""
     };
+    
+    if (courseId && state.courses.length > 0) { // this ensures that if we refresh on /courses/some-id-name, we dont get an 'undefined' value for courses. we need to make sure that the courses list returns from the API before we run the code.
+        course = getCourseById(state.courses, courseId);
+    }
     
     const authorsFormattedForDropdown = state.authors.map(author => {
         return {
