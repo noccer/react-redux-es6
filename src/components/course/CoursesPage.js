@@ -7,32 +7,8 @@ class CoursesPage extends React.Component {
     // initialise state and bind to 'this'
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            course: {
-                title: ""
-            }
-        };
-        
-        this.onTitleChange = this.onTitleChange.bind(this);
-        this.onClickSave = this.onClickSave.bind(this);
     }
 
-    onTitleChange(event) { // updates state every time someone presses a key on title input field
-        const course = this.state.course;
-        course.title=event.target.value;
-        this.setState(
-            {
-                course: course
-            }
-        );
-    }
-
-    onClickSave() {
-        // this.props.dispatch(courseActions.createCourse(this.state.course)); // connect() gives us the dispatch() function.
-        this.props.actions.createCourse(this.state.course); // mapDispatchToProps() allowed us to shorten this line from what it was above
-    }
-    
     courseRow(course, index) {
         return <div key={index}>{course.title}</div>;
     }
@@ -44,15 +20,6 @@ class CoursesPage extends React.Component {
             <div>
                 <h1>Courses</h1>
                 {this.props.courses.map(this.courseRow)}
-                <h2>Add Course</h2>
-                <input
-                    type="text"
-                    onChange={this.onTitleChange}
-                    value={this.state.course.title} />
-                <input
-                    type="submit"
-                    value="Save"
-                    onClick={this.onClickSave} />
             </div>
         );
     }
