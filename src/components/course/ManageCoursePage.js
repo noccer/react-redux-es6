@@ -45,6 +45,7 @@ class ManageCoursePage extends React.Component {
 
     redirect() {
         this.setState({saving: false});
+        toastr.success("Course saved.");
         this.context.router.push('/courses');
     }
 
