@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import courseApi from '../api/mockCourseApi';
-import { beginAjaxCall } from './ajaxStatusActions';
+import { beginAjaxCall, ajaxCallError } from './ajaxStatusActions';
 
 export function loadCoursesSuccess(courses) { //convenience function that returns an action
     return {
@@ -34,7 +34,7 @@ export function loadCourses() {
     };
 }
 
-export function saveCourse(course) {
+export function saveCourse(course) { // this is a thunk
     // see https://app.pluralsight.com/player?course=react-redux-react-router-es6&author=cory-house&name=react-redux-react-router-es6-m10&clip=9&mode=live
     //                              getState is not used in this example BUT...
     //                              ...this is very useful if we want to extract
@@ -44,6 +44,7 @@ export function saveCourse(course) {
         return courseApi.saveCourse(course).then(course => {
             course.id ? dispatch(updateCourseSuccess(course)) : dispatch(createCourseSuccess(course));
         }).catch(error => {
+            dispatch(ajaxCallError(error));
             throw (error);
         });
     };
